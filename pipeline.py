@@ -1,11 +1,13 @@
 #!/usr/bin/env python
 
+import cleanup
 import somajo
 import sticker
 
 
 class Pipeline:
-    def __init__(self, config_files=[]):
+    def __init__(self, config_files=[], cleanup=True):
+        self._cleanup = cleanup
         self._taggers = [
             sticker.Tagger(
                 sticker.Config(config)) for config in config_files]
@@ -27,13 +29,27 @@ class GermanPipeline(Pipeline):
         self._tokenizer = somajo.Tokenizer(
             token_classes=False, extra_info=False)
 
+    def annotate_sentence(self, sentence):
+        if self.cleanup:
+            sentence = cleanup.cleanup(sentence)
+        tokens = sticker.Sentence(self.tokenizer.tokenize(sentence))
+        self.annotate_tokenized([tokens])
+        return tokens
+
     def annotate_text(self, text):
+        if self.cleanup:
+            text = cleanup.cleanup(text)
+
         tokens = self.tokenizer.tokenize_paragraph(text)
         sentences = list(map(lambda s: sticker.Sentence(s),
                              self.splitter.split(tokens)))
         self.annotate_tokenized(sentences)
 
         return sentences
+
+    @property
+    def cleanup(self):
+        return self._cleanup
 
     @property
     def splitter(self):
