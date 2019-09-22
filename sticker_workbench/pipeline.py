@@ -5,7 +5,6 @@ import sticker
 
 import sticker_workbench.cleanup as cleanup
 
-
 class Pipeline:
     """A Sticker pipeline"""
 
@@ -21,7 +20,7 @@ class Pipeline:
         cleanup: bool, optional
             Replace non-ASCII punctuation by similar ASCII punctuation signs. 
         """
-        
+
         self._cleanup = cleanup
         self._taggers = [
             sticker.Tagger(

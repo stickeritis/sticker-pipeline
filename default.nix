@@ -14,8 +14,8 @@ let
   sticker-python = callPackage (fetchFromGitHub {
     owner = "stickeritis";
     repo = "sticker-python";
-    rev = "98a1820a04cd58ec97edcfcf88b2fc038311511b";
-    sha256 = "01vn2kvmcw1n8945xirccqhr8vmdlq3rlz1wcvkdnrcp06hrl9s9";
+    rev = "f6caca08f23e2ea5873fc02509beef6fed27f13b";
+    sha256 = "1ix90xhk4s2z1xc6mvwvqmghhwdphgxk2yyq2kgdc1lxhwmzc9sc";
   }) {};
 in python3Packages.buildPythonApplication rec {
   pname = "sticker-workbench";
