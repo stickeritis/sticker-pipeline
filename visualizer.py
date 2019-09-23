@@ -2,8 +2,11 @@ import sys
 from optparse import OptionParser
 
 from PyQt5.QtCore import Qt, QEventLoop, pyqtSignal
-from PyQt5.QtWidgets import QApplication
+from PyQt5.QtWidgets import QMainWindow
 from PyQt5.QtWebEngineWidgets import QWebEngineView
+
+from ud import sentencesToUD
+from visualizer_window import Ui_VisualizerWindow
 
 header = '''
 <head>
@@ -131,3 +134,23 @@ class Visualizer:
     @property
     def event_loop(self):
         return self._event_loop
+
+class VisualizerWindow(QMainWindow):
+    def __init__(self, pipeline):
+        super(VisualizerWindow, self).__init__()
+        self._pipeline = pipeline
+        self.ui = Ui_VisualizerWindow()
+        self.ui.setupUi(self)
+        self.ui.processButton.clicked.connect(self.processClicked)
+
+    def processClicked(self):
+        self.processSentences(self.ui.inputTextEdit.toPlainText())
+
+    def processSentences(self, text):
+        sentences = self.pipeline.annotate_text(text)
+        ud = sentencesToUD(sentences)
+        self.ui.annotationsWebView.setHtml(header + ud + footer)
+
+    @property
+    def pipeline(self):
+        return self._pipeline
