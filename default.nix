@@ -8,14 +8,8 @@ let
   sticker = callPackage (fetchFromGitHub {
     owner = "stickeritis";
     repo = "nix-packages";
-    rev = "4a2e5c8ff801d5fb1754054ecf85764b6a7d9c82";
-    sha256 = "1n4i3hgbs1qv2s5gdaw73m46svsp8l3x3s5vl5lxg6h0nd5mpfg1";
-  }) {};
-  sticker-python = callPackage (fetchFromGitHub {
-    owner = "stickeritis";
-    repo = "sticker-python";
-    rev = "98a1820a04cd58ec97edcfcf88b2fc038311511b";
-    sha256 = "01vn2kvmcw1n8945xirccqhr8vmdlq3rlz1wcvkdnrcp06hrl9s9";
+    rev = "2a0192f2ae5b2aff7961c1b90dad5abfb5c827d5";
+    sha256 = "1vsz8hy1dj465g0ng87n5wm2hdjxpw1q62lgjxb8k1rqb1gp3mv9";
   }) {};
 in python3Packages.buildPythonApplication rec {
   pname = "sticker-workbench";
@@ -25,7 +19,7 @@ in python3Packages.buildPythonApplication rec {
 
   propagatedBuildInputs = [
     danieldk.python3Packages.somajo
-    sticker-python
+    sticker.python3Packages.sticker
   ];
 
   checkInputs = with python3Packages; [
